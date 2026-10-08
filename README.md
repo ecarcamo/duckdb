@@ -112,6 +112,9 @@ Los archivos de datos descargados **no** deben incluirse.
 
 # Documentacion del equipo
 
+Informe breve con los resultados, hallazgos y aprendizajes:
+[results/informe_lab8_duckdb.pdf](results/informe_lab8_duckdb.pdf).
+
 Las siguientes secciones deben ser completadas por cada equipo. El README final
 debe permitir que una persona que no participo en el desarrollo pueda levantar el
 ambiente, descargar los datos, ejecutar el analisis, reproducir los benchmarks y
