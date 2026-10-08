@@ -174,7 +174,7 @@ docker compose exec lab python scripts/download_data.py
 
 | Opción | Efecto |
 |---|---|
-| (sin opciones) | Descarga los años de `DEFAULT_YEARS` (2024 y 2026) para ambos tipos de taxi. |
+| (sin opciones) | Descarga los años de `DEFAULT_YEARS` (2024, 2025 y 2026) para ambos tipos de taxi. |
 | `--years 2024 2026` | Descarga los años indicados. |
 | `--taxi yellow` o `--taxi green` | Limita la descarga a un tipo de taxi. |
 | `--verify` | Compara cada archivo local contra el tamaño publicado y valida que el Parquet sea legible. |
@@ -217,6 +217,8 @@ docker compose exec -w /workspace/notebooks lab jupyter nbconvert --to notebook 
 | `04_eda.ipynb` | 4. Análisis exploratorio | [docs/04_eda.md](docs/04_eda.md) |
 | `05_incremental.ipynb` | 5. Incorporación de 2024 | [docs/05_incremental.md](docs/05_incremental.md) |
 | `06_benchmark.ipynb` | 6. Parquet frente a tablas DuckDB | [docs/06_benchmark.md](docs/06_benchmark.md) |
+| — (Metabase) | 7. Indicadores y tablero | [docs/07_dashboard.md](docs/07_dashboard.md) |
+| `08_three_years.ipynb` | 8. Incorporación de 2025 y análisis completo | [docs/08_three_years.md](docs/08_three_years.md) |
 
 ## Como reproducir los benchmarks
 

@@ -36,7 +36,7 @@ from pathlib import Path
 import pyarrow.parquet as pq
 import requests
 
-DEFAULT_YEARS = (2024, 2026)
+DEFAULT_YEARS = (2024, 2025, 2026)
 TAXI_TYPES = ("yellow", "green")
 BASE_URL = "https://d37ci6vzurychx.cloudfront.net/trip-data"
 ZONES_URL = "https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv"
