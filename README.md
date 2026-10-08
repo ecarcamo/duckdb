@@ -119,7 +119,49 @@ generar los resultados principales.
 
 ## Como levantar el ambiente
 
-<!-- TODO (Ejercicio 1.5) -->
+Requisitos: Docker con Docker Compose, Git y al menos 10 GB libres en disco.
+
+1. Clonar el fork y entrar al directorio:
+
+   ```bash
+   git clone https://github.com/ecarcamo/duckdb.git
+   cd duckdb
+   git switch lab8
+   ```
+
+2. Construir las imágenes y levantar los servicios en segundo plano:
+
+   ```bash
+   docker compose up --build -d
+   ```
+
+3. Verificar que ambos servicios estén en ejecución:
+
+   ```bash
+   docker compose ps
+   curl -s localhost:3000/api/health
+   docker compose exec lab python -c "import duckdb; print(duckdb.__version__)"
+   ```
+
+   Se espera ver `lab8-lab` y `lab8-metabase` en estado `Up`, la respuesta
+   `{"status":"ok"}` de Metabase y la versión `1.5.5` de DuckDB.
+
+4. Abrir las herramientas en el navegador:
+
+   - JupyterLab: <http://localhost:8888> (sin token).
+   - Metabase: <http://localhost:3000> (la primera vez pide crear una cuenta de
+     administrador local).
+
+5. Para detener el ambiente sin perder la configuración de Metabase:
+
+   ```bash
+   docker compose down
+   ```
+
+Todos los comandos de Python del proyecto se ejecutan dentro del servicio `lab`
+con `docker compose exec lab ...`, cuyo directorio de trabajo es `/workspace`.
+El detalle de la verificación, las herramientas disponibles y el propósito de
+cada directorio está en [docs/01_environment.md](docs/01_environment.md).
 
 ## Como descargar los datos
 
