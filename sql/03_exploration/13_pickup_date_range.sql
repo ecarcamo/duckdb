@@ -1,9 +1,10 @@
 SELECT
     taxi_type,
+    source_year,
     min(pickup_datetime) AS min_pickup,
     max(pickup_datetime) AS max_pickup,
-    count(*) FILTER (WHERE year(pickup_datetime) < 2026) AS pickups_before_2026,
-    count(*) FILTER (WHERE pickup_datetime > TIMESTAMP '2026-09-01') AS pickups_after_aug_2026
+    count(*) FILTER (WHERE year(pickup_datetime) < source_year) AS pickups_before_file_year,
+    count(*) FILTER (WHERE year(pickup_datetime) > source_year) AS pickups_after_file_year
 FROM trips
-GROUP BY taxi_type
-ORDER BY taxi_type DESC;
+GROUP BY taxi_type, source_year
+ORDER BY taxi_type DESC, source_year;

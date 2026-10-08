@@ -174,7 +174,7 @@ docker compose exec lab python scripts/download_data.py
 
 | Opción | Efecto |
 |---|---|
-| (sin opciones) | Descarga los años de `DEFAULT_YEARS` (2026) para ambos tipos de taxi. |
+| (sin opciones) | Descarga los años de `DEFAULT_YEARS` (2024 y 2026) para ambos tipos de taxi. |
 | `--years 2024 2026` | Descarga los años indicados. |
 | `--taxi yellow` o `--taxi green` | Limita la descarga a un tipo de taxi. |
 | `--verify` | Compara cada archivo local contra el tamaño publicado y valida que el Parquet sea legible. |
@@ -187,6 +187,10 @@ la TLC publique meses nuevos. Para confirmar que el conjunto está completo:
 ```bash
 docker compose exec lab python scripts/download_data.py --verify
 ```
+
+Para agregar un año se edita `DEFAULT_YEARS` o se usa `--years`; las consultas
+no cambian porque leen todos los archivos de `data/raw/` (ver
+[docs/05_incremental.md](docs/05_incremental.md)).
 
 El análisis del script original, los cambios y la verificación están en
 [docs/02_download.md](docs/02_download.md).
@@ -211,6 +215,7 @@ docker compose exec -w /workspace/notebooks lab jupyter nbconvert --to notebook 
 |---|---|---|
 | `03_exploration.ipynb` | 3. Consultas directas sobre Parquet | [docs/03_exploration.md](docs/03_exploration.md) |
 | `04_eda.ipynb` | 4. Análisis exploratorio | [docs/04_eda.md](docs/04_eda.md) |
+| `05_incremental.ipynb` | 5. Incorporación de 2024 | [docs/05_incremental.md](docs/05_incremental.md) |
 
 ## Como reproducir los benchmarks
 
