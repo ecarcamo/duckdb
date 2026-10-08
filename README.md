@@ -216,10 +216,34 @@ docker compose exec -w /workspace/notebooks lab jupyter nbconvert --to notebook 
 | `03_exploration.ipynb` | 3. Consultas directas sobre Parquet | [docs/03_exploration.md](docs/03_exploration.md) |
 | `04_eda.ipynb` | 4. Análisis exploratorio | [docs/04_eda.md](docs/04_eda.md) |
 | `05_incremental.ipynb` | 5. Incorporación de 2024 | [docs/05_incremental.md](docs/05_incremental.md) |
+| `06_benchmark.ipynb` | 6. Parquet frente a tablas DuckDB | [docs/06_benchmark.md](docs/06_benchmark.md) |
 
 ## Como reproducir los benchmarks
 
-<!-- TODO (Ejercicio 6) -->
+1. Construir la base materializada (tabla `trips`, tabla `zones` y vista
+   `trips_clean` en `data/processed/taxi.duckdb`; unos 8 segundos):
+
+   ```bash
+   docker compose exec lab python scripts/build_database.py
+   ```
+
+2. Ejecutar el benchmark (unos 6 minutos). Compara las mismas 8 consultas
+   leyendo Parquet directamente y leyendo una tabla materializada, en tres
+   cantidades de datos (1 mes, año 2026 y todos los años):
+
+   ```bash
+   docker compose exec lab python scripts/benchmark.py
+   ```
+
+   Opciones: `--runs N` (repeticiones por consulta, 5 por defecto),
+   `--scales 1_month year_2026 all_years` y `--report-only` (regenera la tabla
+   Markdown a partir de los CSV sin volver a medir).
+
+3. Los resultados quedan en `docs/06_benchmark/` (`results.csv`, `builds.csv` y
+   `results.md`); las bases temporales del benchmark quedan en
+   `data/processed/benchmark/`. El análisis está en
+   [docs/06_benchmark.md](docs/06_benchmark.md) y el notebook
+   `06_benchmark.ipynb` grafica los resultados.
 
 ## Como generar los resultados principales
 

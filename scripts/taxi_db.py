@@ -9,6 +9,10 @@ PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
 DATABASE_PATH = PROCESSED_DIR / "taxi.duckdb"
 VIEW_SCRIPTS = ("views/raw.sql", "views/trips.sql", "views/trips_clean.sql", "views/zones.sql")
 MEMORY_LIMIT = "4GB"
+DEFAULT_SOURCES = {
+    "yellow": "data/raw/yellow/*/*.parquet",
+    "green": "data/raw/green/*/*.parquet",
+}
 
 
 def read_sql(name: str) -> str:
@@ -25,17 +29,25 @@ def configure(con: duckdb.DuckDBPyConnection) -> None:
     con.execute(f"SET temp_directory = '{PROCESSED_DIR / 'tmp'}'")
 
 
-def create_views(con: duckdb.DuckDBPyConnection) -> None:
+def create_views(con: duckdb.DuckDBPyConnection, sources: dict[str, str] | None = None) -> None:
     for script in VIEW_SCRIPTS:
-        con.execute(read_sql(script))
+        sql = read_sql(script)
+        for taxi, pattern in (sources or {}).items():
+            sql = sql.replace(DEFAULT_SOURCES[taxi], pattern)
+        con.execute(sql)
 
 
-def connect(database: str | Path = ":memory:", read_only: bool = False, views: bool = True):
+def connect(
+    database: str | Path = ":memory:",
+    read_only: bool = False,
+    views: bool = True,
+    sources: dict[str, str] | None = None,
+):
     os.chdir(PROJECT_ROOT)
     con = duckdb.connect(str(database), read_only=read_only)
     configure(con)
     if views:
-        create_views(con)
+        create_views(con, sources)
     return con
 
 

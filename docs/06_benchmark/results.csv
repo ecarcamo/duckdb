@@ -1,0 +1,49 @@
+scale,scale_label,rows,query,description,sql_file,strategy,first_seconds,median_seconds,min_seconds,max_seconds,runs
+1_month,1 mes (ene 2026),3765161,Q1,Conteo por tipo,06_benchmark/01_count_by_type.sql,parquet,0.0058,0.0057,0.0034,0.0076,5
+1_month,1 mes (ene 2026),3765161,Q1,Conteo por tipo,06_benchmark/01_count_by_type.sql,table,0.0049,0.0024,0.0018,0.0025,5
+1_month,1 mes (ene 2026),3765161,Q2,Volumen mensual,04_eda/01_monthly_volume.sql,parquet,0.112,0.1255,0.115,0.1329,5
+1_month,1 mes (ene 2026),3765161,Q2,Volumen mensual,04_eda/01_monthly_volume.sql,table,0.0411,0.0393,0.0387,0.0438,5
+1_month,1 mes (ene 2026),3765161,Q3,Hora y día de la semana,04_eda/02_hour_weekday.sql,parquet,0.1613,0.155,0.1489,0.1702,5
+1_month,1 mes (ene 2026),3765161,Q3,Hora y día de la semana,04_eda/02_hour_weekday.sql,table,0.0444,0.0427,0.0355,0.0463,5
+1_month,1 mes (ene 2026),3765161,Q4,Percentiles del viaje,04_eda/03_trip_profile.sql,parquet,0.7811,0.7211,0.6911,0.742,5
+1_month,1 mes (ene 2026),3765161,Q4,Percentiles del viaje,04_eda/03_trip_profile.sql,table,0.666,0.6477,0.5927,0.7113,5
+1_month,1 mes (ene 2026),3765161,Q5,Medio de pago,04_eda/08_payment_mix.sql,parquet,0.1392,0.1356,0.1238,0.1395,5
+1_month,1 mes (ene 2026),3765161,Q5,Medio de pago,04_eda/08_payment_mix.sql,table,0.0561,0.0551,0.0518,0.0577,5
+1_month,1 mes (ene 2026),3765161,Q6,Zonas principales (1 join),04_eda/07_top_pickup_zones.sql,parquet,0.1549,0.1659,0.1536,0.1844,5
+1_month,1 mes (ene 2026),3765161,Q6,Zonas principales (1 join),04_eda/07_top_pickup_zones.sql,table,0.0385,0.0357,0.0349,0.0398,5
+1_month,1 mes (ene 2026),3765161,Q7,Aeropuertos (2 joins),04_eda/10_airport_trips.sql,parquet,0.1966,0.1822,0.1682,0.2003,5
+1_month,1 mes (ene 2026),3765161,Q7,Aeropuertos (2 joins),04_eda/10_airport_trips.sql,table,0.0416,0.0493,0.0463,0.0532,5
+1_month,1 mes (ene 2026),3765161,Q8,Un solo día (filtro selectivo),06_benchmark/02_single_day.sql,parquet,0.019,0.0171,0.0154,0.0187,5
+1_month,1 mes (ene 2026),3765161,Q8,Un solo día (filtro selectivo),06_benchmark/02_single_day.sql,table,0.0024,0.0022,0.0021,0.0031,5
+year_2026,Año 2026,30040469,Q1,Conteo por tipo,06_benchmark/01_count_by_type.sql,parquet,0.0084,0.0087,0.0083,0.009,5
+year_2026,Año 2026,30040469,Q1,Conteo por tipo,06_benchmark/01_count_by_type.sql,table,0.0092,0.0082,0.0076,0.0086,5
+year_2026,Año 2026,30040469,Q2,Volumen mensual,04_eda/01_monthly_volume.sql,parquet,0.3265,0.3195,0.3066,0.3273,5
+year_2026,Año 2026,30040469,Q2,Volumen mensual,04_eda/01_monthly_volume.sql,table,0.2678,0.2513,0.2306,0.2544,5
+year_2026,Año 2026,30040469,Q3,Hora y día de la semana,04_eda/02_hour_weekday.sql,parquet,0.3978,0.3803,0.3564,0.3887,5
+year_2026,Año 2026,30040469,Q3,Hora y día de la semana,04_eda/02_hour_weekday.sql,table,0.2488,0.2637,0.2491,0.2698,5
+year_2026,Año 2026,30040469,Q4,Percentiles del viaje,04_eda/03_trip_profile.sql,parquet,6.3849,5.4673,5.0306,5.9804,5
+year_2026,Año 2026,30040469,Q4,Percentiles del viaje,04_eda/03_trip_profile.sql,table,5.458,5.4803,5.311,5.6672,5
+year_2026,Año 2026,30040469,Q5,Medio de pago,04_eda/08_payment_mix.sql,parquet,0.5061,0.3492,0.322,0.3496,5
+year_2026,Año 2026,30040469,Q5,Medio de pago,04_eda/08_payment_mix.sql,table,0.4222,0.4295,0.4235,0.435,5
+year_2026,Año 2026,30040469,Q6,Zonas principales (1 join),04_eda/07_top_pickup_zones.sql,parquet,0.3858,0.3814,0.376,0.4072,5
+year_2026,Año 2026,30040469,Q6,Zonas principales (1 join),04_eda/07_top_pickup_zones.sql,table,0.2275,0.2148,0.2048,0.2239,5
+year_2026,Año 2026,30040469,Q7,Aeropuertos (2 joins),04_eda/10_airport_trips.sql,parquet,0.4798,0.4812,0.4563,0.5219,5
+year_2026,Año 2026,30040469,Q7,Aeropuertos (2 joins),04_eda/10_airport_trips.sql,table,0.3198,0.3261,0.3191,0.3347,5
+year_2026,Año 2026,30040469,Q8,Un solo día (filtro selectivo),06_benchmark/02_single_day.sql,parquet,0.0312,0.0281,0.0243,0.029,5
+year_2026,Año 2026,30040469,Q8,Un solo día (filtro selectivo),06_benchmark/02_single_day.sql,table,0.0034,0.0028,0.0026,0.0046,5
+all_years,Todos los años,71870407,Q1,Conteo por tipo,06_benchmark/01_count_by_type.sql,parquet,0.0137,0.0137,0.0135,0.0143,5
+all_years,Todos los años,71870407,Q1,Conteo por tipo,06_benchmark/01_count_by_type.sql,table,0.029,0.0191,0.0185,0.0216,5
+all_years,Todos los años,71870407,Q2,Volumen mensual,04_eda/01_monthly_volume.sql,parquet,0.7799,0.6641,0.6504,0.6833,5
+all_years,Todos los años,71870407,Q2,Volumen mensual,04_eda/01_monthly_volume.sql,table,0.6609,0.5405,0.5374,0.5592,5
+all_years,Todos los años,71870407,Q3,Hora y día de la semana,04_eda/02_hour_weekday.sql,parquet,0.8386,0.8091,0.807,0.8174,5
+all_years,Todos los años,71870407,Q3,Hora y día de la semana,04_eda/02_hour_weekday.sql,table,0.5609,0.5763,0.5609,0.5956,5
+all_years,Todos los años,71870407,Q4,Percentiles del viaje,04_eda/03_trip_profile.sql,parquet,16.1542,16.7383,14.7562,17.335,5
+all_years,Todos los años,71870407,Q4,Percentiles del viaje,04_eda/03_trip_profile.sql,table,16.6794,15.5527,14.2785,16.0591,5
+all_years,Todos los años,71870407,Q5,Medio de pago,04_eda/08_payment_mix.sql,parquet,0.9422,0.7092,0.6877,0.7107,5
+all_years,Todos los años,71870407,Q5,Medio de pago,04_eda/08_payment_mix.sql,table,0.9251,0.925,0.8955,0.9304,5
+all_years,Todos los años,71870407,Q6,Zonas principales (1 join),04_eda/07_top_pickup_zones.sql,parquet,0.8128,0.814,0.8057,0.8251,5
+all_years,Todos los años,71870407,Q6,Zonas principales (1 join),04_eda/07_top_pickup_zones.sql,table,0.4676,0.4713,0.4655,0.4821,5
+all_years,Todos los años,71870407,Q7,Aeropuertos (2 joins),04_eda/10_airport_trips.sql,parquet,1.004,1.0044,0.9912,1.0453,5
+all_years,Todos los años,71870407,Q7,Aeropuertos (2 joins),04_eda/10_airport_trips.sql,table,0.7501,0.7573,0.7089,0.7784,5
+all_years,Todos los años,71870407,Q8,Un solo día (filtro selectivo),06_benchmark/02_single_day.sql,parquet,0.0481,0.0463,0.044,0.0492,5
+all_years,Todos los años,71870407,Q8,Un solo día (filtro selectivo),06_benchmark/02_single_day.sql,table,0.0067,0.0043,0.003,0.005,5

@@ -1,0 +1,4 @@
+scale,scale_label,files,rows,parquet_mib,table_mib,build_seconds
+1_month,1 mes (ene 2026),2,3765161,62.1,102.3,0.9
+year_2026,Año 2026,16,30040469,495.7,816.3,3.01
+all_years,Todos los años,40,71870407,1171.7,1972.0,7.46
