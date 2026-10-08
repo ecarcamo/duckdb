@@ -193,7 +193,23 @@ El análisis del script original, los cambios y la verificación están en
 
 ## Como ejecutar el analisis
 
-<!-- TODO -->
+Las consultas están en `sql/`, una por archivo, y se ejecutan desde los
+notebooks de `notebooks/` con el módulo `scripts/taxi_db.py`, que abre DuckDB
+con la raíz del proyecto como directorio de trabajo y crea las vistas
+`yellow_raw`, `green_raw`, `trips`, `trips_clean` y `zones` sobre los archivos
+Parquet (`sql/views/`).
+
+Los notebooks se pueden abrir en JupyterLab (<http://localhost:8888>) o
+ejecutar completos desde la terminal; el resultado queda guardado en el mismo
+archivo:
+
+```bash
+docker compose exec -w /workspace/notebooks lab jupyter nbconvert --to notebook --execute --inplace 03_exploration.ipynb
+```
+
+| Notebook | Ejercicio | Documentación |
+|---|---|---|
+| `03_exploration.ipynb` | 3. Consultas directas sobre Parquet | [docs/03_exploration.md](docs/03_exploration.md) |
 
 ## Como reproducir los benchmarks
 
