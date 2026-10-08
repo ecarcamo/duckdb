@@ -183,6 +183,22 @@ Los archivos fuente son siempre los Parquet de `data/raw/`; se indica el patrón
   La primera versión, que agrupaba por todas las columnas, agotó el límite de
   memoria de 4 GB; agrupar por un hash de 64 bits resolvió el problema en 1.2 s.
 
+### 18 — Duración por proveedor (`18_vendor_timestamps.sql`)
+
+- **Objetivo:** averiguar si los viajes con duración cero o negativa son errores
+  aislados o un patrón de algún proveedor.
+- **Fuente:** vista `trips`.
+- **Resultado:** el proveedor 7 registra la **misma hora** de abordaje y de
+  descenso en sus 367,120 viajes amarillos (100 %); en los demás proveedores el
+  problema afecta a menos del 0.3 % de los viajes.
+- **Decisión:** la primera versión de `trips_clean` exigía
+  `dropoff_datetime > pickup_datetime` y eliminaba por completo a este
+  proveedor, aunque su distancia, zonas y montos son válidos. Se corrigió la
+  vista: los viajes del proveedor 7 con ambas horas iguales se conservan con
+  `duration_minutes` nulo, de modo que cuentan para volumen e ingresos pero no
+  para las métricas de duración y velocidad. Este error se detectó en el
+  Ejercicio 4 al comparar proveedores.
+
 ### 16 — Columna `request_source` (`16_request_source.sql`)
 
 - **Objetivo:** entender la columna nueva que aparece desde junio de 2026.
@@ -204,7 +220,7 @@ Los archivos fuente son siempre los Parquet de `data/raw/`; se indica el patrón
 
   | Tipo | Crudos | Limpios | Descartados | % |
   |---|---|---|---|---|
-  | yellow | 29,703,355 | 28,233,471 | 1,469,884 | 4.95 |
+  | yellow | 29,703,355 | 28,593,831 | 1,109,524 | 3.74 |
   | green | 337,114 | 322,606 | 14,508 | 4.30 |
 
 - **Decisión:** el análisis de comportamiento (duración, distancia, tarifas)
@@ -217,7 +233,7 @@ Un viaje se conserva si cumple todas estas condiciones:
 | Regla | Motivo |
 |---|---|
 | El abordaje cae dentro del mes del archivo | Fechas de 2001 o 2008 son errores de reloj del taxímetro. |
-| `dropoff_datetime > pickup_datetime` | Una duración cero o negativa es imposible. |
+| `dropoff_datetime > pickup_datetime`, excepto el proveedor 7 con ambas horas iguales | Una duración cero o negativa es imposible; el proveedor 7 no reporta la hora de descenso (consulta 18), así que sus viajes se conservan con duración nula. |
 | Duración ≤ 6 horas | Turnos olvidados abiertos; un viaje urbano no dura medio día. |
 | `0 < trip_distance ≤ 100` | Distancia cero suele ser viaje cancelado; más de 100 millas excede el área de servicio. |
 | `fare_amount ≥ 0` y `0 < total_amount ≤ 1000` | Los montos negativos son reversos o ajustes contables, no viajes. |
