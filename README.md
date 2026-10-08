@@ -219,6 +219,7 @@ docker compose exec -w /workspace/notebooks lab jupyter nbconvert --to notebook 
 | `06_benchmark.ipynb` | 6. Parquet frente a tablas DuckDB | [docs/06_benchmark.md](docs/06_benchmark.md) |
 | — (Metabase) | 7. Indicadores y tablero | [docs/07_dashboard.md](docs/07_dashboard.md) |
 | `08_three_years.ipynb` | 8. Incorporación de 2025 y análisis completo | [docs/08_three_years.md](docs/08_three_years.md) |
+| — | 9. Discusión | [docs/09_discussion.md](docs/09_discussion.md) |
 
 ## Como reproducir los benchmarks
 
