@@ -1,0 +1,406 @@
+{
+  "name": "Lab 8 - Viajes de taxi en Nueva York",
+  "description": "Indicadores de los viajes de taxis amarillos y verdes de Nueva York (TLC), calculados con DuckDB sobre la tabla materializada data/processed/taxi.duckdb.",
+  "cards": [
+    {
+      "name": "Viajes analizados",
+      "description": "¿Cuántos viajes válidos contiene el conjunto de datos?",
+      "display": "scalar",
+      "query": "SELECT\n    count(*) AS trips,\n    round(sum(total_amount) / 1e6, 1) AS revenue_musd,\n    round(avg(total_amount), 2) AS avg_ticket,\n    count(DISTINCT source_year) AS years,\n    min(make_date(source_year, source_month, 1)) AS first_month,\n    max(make_date(source_year, source_month, 1)) AS last_month\nFROM trips_clean;\n",
+      "visualization_settings": {
+        "scalar.field": "trips",
+        "scalar.compact_primary_number": true
+      },
+      "layout": {
+        "col": 0,
+        "row": 0,
+        "size_x": 8,
+        "size_y": 3
+      }
+    },
+    {
+      "name": "Ingreso total (millones de USD)",
+      "description": "¿Cuánto dinero movieron esos viajes?",
+      "display": "scalar",
+      "query": "SELECT\n    count(*) AS trips,\n    round(sum(total_amount) / 1e6, 1) AS revenue_musd,\n    round(avg(total_amount), 2) AS avg_ticket,\n    count(DISTINCT source_year) AS years,\n    min(make_date(source_year, source_month, 1)) AS first_month,\n    max(make_date(source_year, source_month, 1)) AS last_month\nFROM trips_clean;\n",
+      "visualization_settings": {
+        "scalar.field": "revenue_musd"
+      },
+      "layout": {
+        "col": 8,
+        "row": 0,
+        "size_x": 8,
+        "size_y": 3
+      }
+    },
+    {
+      "name": "Monto promedio por viaje (USD)",
+      "description": "¿Cuánto paga en promedio un pasajero por viaje?",
+      "display": "scalar",
+      "query": "SELECT\n    count(*) AS trips,\n    round(sum(total_amount) / 1e6, 1) AS revenue_musd,\n    round(avg(total_amount), 2) AS avg_ticket,\n    count(DISTINCT source_year) AS years,\n    min(make_date(source_year, source_month, 1)) AS first_month,\n    max(make_date(source_year, source_month, 1)) AS last_month\nFROM trips_clean;\n",
+      "visualization_settings": {
+        "scalar.field": "avg_ticket"
+      },
+      "layout": {
+        "col": 16,
+        "row": 0,
+        "size_x": 8,
+        "size_y": 3
+      }
+    },
+    {
+      "name": "I1 · Viajes por día según mes",
+      "description": "¿Cómo evoluciona la demanda diaria de cada tipo de taxi?",
+      "display": "line",
+      "query": "SELECT\n    make_date(source_year, source_month, 1) AS month,\n    taxi_type,\n    round(count(*) / count(DISTINCT CAST(pickup_datetime AS DATE)), 0) AS trips_per_day\nFROM trips_clean\nGROUP BY ALL\nORDER BY month, taxi_type;\n",
+      "visualization_settings": {
+        "graph.dimensions": [
+          "month",
+          "taxi_type"
+        ],
+        "graph.y_axis.title_text": "Viajes por día (escala log)",
+        "graph.x_axis.title_text": "",
+        "series_settings": {
+          "yellow": {
+            "title": "Amarillo",
+            "color": "#EDA100"
+          },
+          "green": {
+            "title": "Verde",
+            "color": "#008300"
+          }
+        },
+        "graph.y_axis.scale": "log",
+        "graph.metrics": [
+          "trips_per_day"
+        ]
+      },
+      "layout": {
+        "col": 0,
+        "row": 3,
+        "size_x": 12,
+        "size_y": 7
+      }
+    },
+    {
+      "name": "I2 · Ingreso mensual (millones de USD)",
+      "description": "¿Cuánto ingreso genera cada mes y qué parte aporta cada tipo de taxi?",
+      "display": "bar",
+      "query": "SELECT\n    make_date(source_year, source_month, 1) AS month,\n    taxi_type,\n    round(sum(total_amount) / 1e6, 2) AS revenue_musd\nFROM trips_clean\nGROUP BY ALL\nORDER BY month, taxi_type;\n",
+      "visualization_settings": {
+        "graph.dimensions": [
+          "month",
+          "taxi_type"
+        ],
+        "graph.y_axis.title_text": "Millones de USD",
+        "graph.x_axis.title_text": "",
+        "series_settings": {
+          "yellow": {
+            "title": "Amarillo",
+            "color": "#EDA100"
+          },
+          "green": {
+            "title": "Verde",
+            "color": "#008300"
+          }
+        },
+        "stackable.stack_type": "stacked",
+        "graph.metrics": [
+          "revenue_musd"
+        ]
+      },
+      "layout": {
+        "col": 12,
+        "row": 3,
+        "size_x": 12,
+        "size_y": 7
+      }
+    },
+    {
+      "name": "I3 · Monto promedio por viaje (USD)",
+      "description": "¿Está subiendo lo que paga un pasajero por viaje?",
+      "display": "line",
+      "query": "SELECT\n    make_date(source_year, source_month, 1) AS month,\n    taxi_type,\n    round(avg(total_amount), 2) AS avg_ticket\nFROM trips_clean\nGROUP BY ALL\nORDER BY month, taxi_type;\n",
+      "visualization_settings": {
+        "graph.dimensions": [
+          "month",
+          "taxi_type"
+        ],
+        "graph.y_axis.title_text": "USD por viaje",
+        "graph.x_axis.title_text": "",
+        "series_settings": {
+          "yellow": {
+            "title": "Amarillo",
+            "color": "#EDA100"
+          },
+          "green": {
+            "title": "Verde",
+            "color": "#008300"
+          }
+        },
+        "graph.metrics": [
+          "avg_ticket"
+        ]
+      },
+      "layout": {
+        "col": 0,
+        "row": 10,
+        "size_x": 12,
+        "size_y": 7
+      }
+    },
+    {
+      "name": "I4 · Propina con tarjeta (% de la tarifa)",
+      "description": "¿Qué tan generosas son las propinas y cambian con el tiempo?",
+      "display": "line",
+      "query": "SELECT\n    make_date(source_year, source_month, 1) AS month,\n    taxi_type,\n    round(100.0 * sum(tip_amount) / sum(fare_amount), 2) AS tip_pct_of_fare\nFROM trips_clean\nWHERE payment_type = 1\n  AND fare_amount > 0\nGROUP BY ALL\nORDER BY month, taxi_type;\n",
+      "visualization_settings": {
+        "graph.dimensions": [
+          "month",
+          "taxi_type"
+        ],
+        "graph.y_axis.title_text": "% de la tarifa",
+        "graph.x_axis.title_text": "",
+        "series_settings": {
+          "yellow": {
+            "title": "Amarillo",
+            "color": "#EDA100"
+          },
+          "green": {
+            "title": "Verde",
+            "color": "#008300"
+          }
+        },
+        "graph.metrics": [
+          "tip_pct_of_fare"
+        ]
+      },
+      "layout": {
+        "col": 12,
+        "row": 10,
+        "size_x": 12,
+        "size_y": 7
+      }
+    },
+    {
+      "name": "I5 · Distribución de viajes por hora (%)",
+      "description": "¿En qué horas se concentra la demanda de cada tipo de taxi?",
+      "display": "line",
+      "query": "SELECT\n    hour(pickup_datetime) AS hour,\n    taxi_type,\n    round(100.0 * count(*) / sum(count(*)) OVER (PARTITION BY taxi_type), 2) AS pct_of_trips\nFROM trips_clean\nGROUP BY hour(pickup_datetime), taxi_type\nORDER BY hour, taxi_type;\n",
+      "visualization_settings": {
+        "graph.dimensions": [
+          "hour",
+          "taxi_type"
+        ],
+        "graph.y_axis.title_text": "% de los viajes del tipo",
+        "graph.x_axis.title_text": "",
+        "series_settings": {
+          "yellow": {
+            "title": "Amarillo",
+            "color": "#EDA100"
+          },
+          "green": {
+            "title": "Verde",
+            "color": "#008300"
+          }
+        },
+        "graph.x_axis.scale": "ordinal",
+        "graph.metrics": [
+          "pct_of_trips"
+        ]
+      },
+      "layout": {
+        "col": 0,
+        "row": 17,
+        "size_x": 12,
+        "size_y": 7
+      }
+    },
+    {
+      "name": "I6 · Velocidad mediana por hora (mph)",
+      "description": "¿A qué horas el tráfico hace más lentos los viajes?",
+      "display": "line",
+      "query": "SELECT\n    hour(pickup_datetime) AS hour,\n    round(approx_quantile(trip_distance / (duration_minutes / 60), 0.5), 1) AS median_mph,\n    round(approx_quantile(duration_minutes, 0.5), 1) AS median_minutes\nFROM trips_clean\nWHERE duration_minutes >= 1\nGROUP BY ALL\nORDER BY hour;\n",
+      "visualization_settings": {
+        "graph.dimensions": [
+          "hour"
+        ],
+        "graph.y_axis.title_text": "Millas por hora",
+        "graph.x_axis.title_text": "",
+        "series_settings": {
+          "median_mph": {
+            "title": "Velocidad mediana",
+            "color": "#2A78D6"
+          }
+        },
+        "graph.x_axis.scale": "ordinal",
+        "graph.metrics": [
+          "median_mph"
+        ]
+      },
+      "layout": {
+        "col": 12,
+        "row": 17,
+        "size_x": 12,
+        "size_y": 7
+      }
+    },
+    {
+      "name": "I7 · Medio de pago por año (%)",
+      "description": "¿Cómo pagan los pasajeros y está cambiando la forma de pago?",
+      "display": "bar",
+      "query": "SELECT\n    CAST(source_year AS VARCHAR) AS year,\n    CASE payment_type\n        WHEN 1 THEN 'Tarjeta'\n        WHEN 2 THEN 'Efectivo'\n        WHEN 0 THEN 'Flex fare'\n        ELSE 'Otro o nulo'\n    END AS payment,\n    round(100.0 * count(*) / sum(count(*)) OVER (PARTITION BY source_year), 2) AS pct_of_trips\nFROM trips_clean\nGROUP BY source_year, payment\nORDER BY year, pct_of_trips DESC;\n",
+      "visualization_settings": {
+        "graph.dimensions": [
+          "year",
+          "payment"
+        ],
+        "stackable.stack_type": "stacked",
+        "graph.y_axis.title_text": "% de los viajes",
+        "graph.x_axis.title_text": "",
+        "series_settings": {
+          "Tarjeta": {
+            "color": "#2A78D6"
+          },
+          "Efectivo": {
+            "color": "#1BAF7A"
+          },
+          "Flex fare": {
+            "color": "#EB6834"
+          },
+          "Otro o nulo": {
+            "color": "#B4B2A9"
+          }
+        },
+        "graph.metrics": [
+          "pct_of_trips"
+        ]
+      },
+      "layout": {
+        "col": 0,
+        "row": 24,
+        "size_x": 8,
+        "size_y": 7
+      }
+    },
+    {
+      "name": "I8 · Peso de los aeropuertos (%)",
+      "description": "¿Qué parte de los viajes y del ingreso viene de los aeropuertos?",
+      "display": "bar",
+      "query": "WITH classified AS (\n    SELECT\n        t.source_year,\n        t.total_amount,\n        'Airports' IN (pu.service_zone, do_.service_zone)\n            OR 'EWR' IN (pu.service_zone, do_.service_zone) AS is_airport\n    FROM trips_clean AS t\n    LEFT JOIN zones AS pu ON pu.location_id = t.PULocationID\n    LEFT JOIN zones AS do_ ON do_.location_id = t.DOLocationID\n)\nSELECT\n    CAST(source_year AS VARCHAR) AS year,\n    round(100.0 * count(*) FILTER (WHERE is_airport) / count(*), 2) AS pct_trips,\n    round(100.0 * sum(total_amount) FILTER (WHERE is_airport) / sum(total_amount), 2) AS pct_revenue\nFROM classified\nGROUP BY source_year\nORDER BY year;\n",
+      "visualization_settings": {
+        "graph.dimensions": [
+          "year"
+        ],
+        "graph.y_axis.title_text": "%",
+        "graph.x_axis.title_text": "",
+        "graph.show_values": true,
+        "series_settings": {
+          "pct_trips": {
+            "title": "% de viajes",
+            "color": "#9FC4EE"
+          },
+          "pct_revenue": {
+            "title": "% de ingresos",
+            "color": "#2A78D6"
+          }
+        },
+        "graph.metrics": [
+          "pct_trips",
+          "pct_revenue"
+        ]
+      },
+      "layout": {
+        "col": 8,
+        "row": 24,
+        "size_x": 8,
+        "size_y": 7
+      }
+    },
+    {
+      "name": "I9 · Participación de los taxis verdes (%)",
+      "description": "¿Están perdiendo terreno los taxis verdes frente a los amarillos?",
+      "display": "line",
+      "query": "SELECT\n    make_date(source_year, source_month, 1) AS month,\n    round(100.0 * count(*) FILTER (WHERE taxi_type = 'green') / count(*), 2) AS green_pct\nFROM trips_clean\nGROUP BY ALL\nORDER BY month;\n",
+      "visualization_settings": {
+        "graph.dimensions": [
+          "month"
+        ],
+        "graph.y_axis.title_text": "% de los viajes",
+        "graph.x_axis.title_text": "",
+        "series_settings": {
+          "green_pct": {
+            "title": "Taxis verdes",
+            "color": "#008300"
+          }
+        },
+        "graph.metrics": [
+          "green_pct"
+        ]
+      },
+      "layout": {
+        "col": 16,
+        "row": 24,
+        "size_x": 8,
+        "size_y": 7
+      }
+    },
+    {
+      "name": "I10 · Zonas con más abordajes",
+      "description": "¿Dónde se originan más viajes?",
+      "display": "row",
+      "query": "SELECT\n    z.zone || ' (' || z.borough || ')' AS zone,\n    count(*) AS trips\nFROM trips_clean AS t\nJOIN zones AS z ON z.location_id = t.PULocationID\nWHERE z.borough NOT IN ('Unknown', 'N/A')\nGROUP BY ALL\nORDER BY trips DESC\nLIMIT 10;\n",
+      "visualization_settings": {
+        "graph.dimensions": [
+          "zone"
+        ],
+        "graph.show_values": true,
+        "graph.x_axis.title_text": "",
+        "graph.y_axis.title_text": "Viajes",
+        "series_settings": {
+          "trips": {
+            "title": "Viajes",
+            "color": "#2A78D6"
+          }
+        },
+        "graph.metrics": [
+          "trips"
+        ]
+      },
+      "layout": {
+        "col": 0,
+        "row": 31,
+        "size_x": 12,
+        "size_y": 8
+      }
+    },
+    {
+      "name": "I11 · Cargo de congestión CBD (millones de USD)",
+      "description": "¿Cuánto recauda el cargo de congestión de Manhattan desde que existe?",
+      "display": "bar",
+      "query": "SELECT\n    make_date(source_year, source_month, 1) AS month,\n    round(coalesce(sum(cbd_congestion_fee), 0) / 1e6, 2) AS cbd_fee_musd,\n    round(100.0 * count(*) FILTER (WHERE cbd_congestion_fee > 0) / count(*), 1) AS pct_trips_with_fee\nFROM trips_clean\nGROUP BY ALL\nORDER BY month;\n",
+      "visualization_settings": {
+        "graph.dimensions": [
+          "month"
+        ],
+        "graph.y_axis.title_text": "Millones de USD",
+        "graph.x_axis.title_text": "",
+        "series_settings": {
+          "cbd_fee_musd": {
+            "title": "Cargo CBD",
+            "color": "#2A78D6"
+          }
+        },
+        "graph.metrics": [
+          "cbd_fee_musd"
+        ]
+      },
+      "layout": {
+        "col": 12,
+        "row": 31,
+        "size_x": 12,
+        "size_y": 8
+      }
+    }
+  ]
+}

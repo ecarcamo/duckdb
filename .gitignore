@@ -4,6 +4,9 @@ data/processed/**
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 
+# Secretos locales
+.env
+
 # Python
 __pycache__/
 *.py[cod]

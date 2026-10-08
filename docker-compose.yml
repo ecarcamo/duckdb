@@ -11,6 +11,9 @@ services:
       dockerfile: Dockerfile
     container_name: lab8-lab
     working_dir: /workspace
+    env_file:
+      - path: .env
+        required: false
     ports:
       - "127.0.0.1:8888:8888"
     volumes:

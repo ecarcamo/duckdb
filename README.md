@@ -247,4 +247,46 @@ docker compose exec -w /workspace/notebooks lab jupyter nbconvert --to notebook 
 
 ## Como generar los resultados principales
 
-<!-- TODO -->
+Orden completo, desde un clon limpio:
+
+```bash
+docker compose up --build -d
+docker compose exec lab python scripts/download_data.py
+docker compose exec lab python scripts/download_data.py --verify
+docker compose exec lab python scripts/build_database.py
+docker compose exec lab python scripts/benchmark.py
+docker compose exec lab python scripts/metabase_dashboard.py --public
+```
+
+Los notebooks de `notebooks/` se vuelven a ejecutar como se indica en «Como
+ejecutar el analisis».
+
+### Tablero de Metabase (Ejercicio 7)
+
+1. Abrir <http://localhost:3000>, crear la cuenta de administrador local y,
+   en Administración → Ajustes → Autenticación → Claves de API, crear una clave
+   del grupo *Administrators*.
+2. Copiar `.env.example` a `.env` (está excluido de Git) y pegar la clave en
+   `API_KEY`. Recrear el servicio para que la lea: `docker compose up -d lab`.
+3. Construir la base materializada (`scripts/build_database.py`) y ejecutar:
+
+   ```bash
+   docker compose exec lab python scripts/metabase_dashboard.py --public
+   ```
+
+   El script registra `taxi.duckdb` en Metabase en modo `read_only`, crea o
+   actualiza las 14 tarjetas (SQL de `sql/07_indicators/`) y el tablero, imprime
+   su URL y la del enlace público, y exporta la definición en
+   `docs/07_dashboard/dashboard.json`.
+
+Para reconstruir `taxi.duckdb` con Metabase encendido hay que detener primero
+Metabase, porque el archivo admite un solo escritor:
+
+```bash
+docker compose stop metabase
+docker compose exec lab python scripts/build_database.py
+docker compose start metabase
+```
+
+La documentación del tablero, sus indicadores y la captura están en
+[docs/07_dashboard.md](docs/07_dashboard.md).
