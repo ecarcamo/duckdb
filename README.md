@@ -210,6 +210,7 @@ docker compose exec -w /workspace/notebooks lab jupyter nbconvert --to notebook 
 | Notebook | Ejercicio | Documentación |
 |---|---|---|
 | `03_exploration.ipynb` | 3. Consultas directas sobre Parquet | [docs/03_exploration.md](docs/03_exploration.md) |
+| `04_eda.ipynb` | 4. Análisis exploratorio | [docs/04_eda.md](docs/04_eda.md) |
 
 ## Como reproducir los benchmarks
 
