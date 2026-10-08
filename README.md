@@ -165,7 +165,31 @@ cada directorio está en [docs/01_environment.md](docs/01_environment.md).
 
 ## Como descargar los datos
 
-<!-- TODO (Ejercicios 2.6, 5.1 y 8.1) -->
+El script `scripts/download_data.py` descarga los viajes de taxis amarillos y
+verdes publicados por la TLC y la tabla de zonas:
+
+```bash
+docker compose exec lab python scripts/download_data.py
+```
+
+| Opción | Efecto |
+|---|---|
+| (sin opciones) | Descarga los años de `DEFAULT_YEARS` (2026) para ambos tipos de taxi. |
+| `--years 2024 2026` | Descarga los años indicados. |
+| `--taxi yellow` o `--taxi green` | Limita la descarga a un tipo de taxi. |
+| `--verify` | Compara cada archivo local contra el tamaño publicado y valida que el Parquet sea legible. |
+
+Los archivos quedan en `data/raw/<tipo>/<año>/<tipo>_tripdata_<año>-<mes>.parquet`
+y la tabla de zonas en `data/raw/zones/taxi_zone_lookup.csv`. Un archivo que ya
+existe no se vuelve a descargar, de modo que el comando puede repetirse cuando
+la TLC publique meses nuevos. Para confirmar que el conjunto está completo:
+
+```bash
+docker compose exec lab python scripts/download_data.py --verify
+```
+
+El análisis del script original, los cambios y la verificación están en
+[docs/02_download.md](docs/02_download.md).
 
 ## Como ejecutar el analisis
 
